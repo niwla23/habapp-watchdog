@@ -6,7 +6,7 @@ COPY go.sum ./
 RUN go mod download
 COPY *.go ./
 
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /habapp-watchdog
+RUN go build -o /habapp-watchdog
 
 FROM debian:bullseye-slim
 COPY --from=builder /habapp-watchdog /habapp-watchdog
