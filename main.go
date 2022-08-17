@@ -52,6 +52,9 @@ func restartContainerByName(containerName string) {
 
 func main() {
 	CONTAINER_NAME := os.Getenv("HABAPP_CONTAINER_NAME")
+	OPENHAB_LAST_PING_ITEM_NAME := os.Getenv("OPENHAB_LAST_PING_ITEM_NAME")
+	OPENHAB_REST_BASE_URL := os.Getenv("OPENHAB_REST_BASE_URL")
+
 	CHECK_INTERVAL_SECONDS, err := strconv.ParseInt(os.Getenv("CHECK_INTERVAL_SECONDS"), 10, 0)
 	if err != nil {
 		panic(err)
@@ -65,7 +68,7 @@ func main() {
 		panic(err)
 	}
 	for {
-		resp, err := http.Get("https://openhab.b49.cloudserver.click/rest/items/HABApp_LastRulePing/state")
+		resp, err := http.Get(fmt.Sprintf("%s/items/%s/state", OPENHAB_REST_BASE_URL, OPENHAB_LAST_PING_ITEM_NAME))
 		if err != nil {
 			fmt.Println("error fetching data")
 			time.Sleep(time.Second * 10)
