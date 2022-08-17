@@ -81,7 +81,10 @@ func main() {
 		timestamp, err := strconv.ParseInt(string(body), 10, 0)
 		if err != nil {
 			fmt.Println("error parsing data")
-			panic(err)
+			restartContainerByName(CONTAINER_NAME)
+			fmt.Println("Ping value is NULL, restarting HABApp")
+			time.Sleep(time.Second * time.Duration(HABAPP_POST_RESTART_DELAY_SECONDS))
+			continue
 		}
 
 		diff := time.Now().Unix() - timestamp
