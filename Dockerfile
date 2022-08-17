@@ -8,6 +8,6 @@ COPY *.go ./
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /habapp-watchdog
 
-FROM scratch
+FROM debian:bullseye-slim
 COPY --from=builder /habapp-watchdog /habapp-watchdog
 ENTRYPOINT ["/habapp-watchdog"]
