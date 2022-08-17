@@ -71,20 +71,17 @@ func main() {
 		resp, err := http.Get(fmt.Sprintf("%s/items/%s/state", OPENHAB_REST_BASE_URL, OPENHAB_LAST_PING_ITEM_NAME))
 		if err != nil {
 			fmt.Println("error fetching data")
-			time.Sleep(time.Second * 10)
-			continue
+			panic(err)
 		}
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			fmt.Println("error reading body")
-			time.Sleep(time.Second * 10)
-			continue
+			panic(err)
 		}
 		timestamp, err := strconv.ParseInt(string(body), 10, 0)
 		if err != nil {
 			fmt.Println("error parsing data")
-			time.Sleep(time.Second * 10)
-			continue
+			panic(err)
 		}
 
 		diff := time.Now().Unix() - timestamp
